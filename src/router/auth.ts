@@ -10,7 +10,7 @@ router.post("/user/signup", async (req: Request, res: Response) => {
     const userDetails = req.body;
 
     const hashedPassword = await bcrypt.hash(userDetails.password, 10);
-    
+
     const user = await db.user.create({
       data: {
         name: userDetails.name,
@@ -19,13 +19,30 @@ router.post("/user/signup", async (req: Request, res: Response) => {
       },
     });
 
+    // As soon as the user is created. Create three columns
+    await db.column.createMany({
+      data: [
+        {
+          title: "To Do",
+          authorId: user.id,
+        },
+        {
+          title: "In Progress",
+          authorId: user.id,
+        },
+        {
+          title: "Done",
+          authorId: user.id,
+        },
+      ],
+    });
+
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string);
 
     res.status(201).json({
       token,
       userId: user.id,
     });
-
   } catch (error: any) {
     console.log(error.message);
 
@@ -68,8 +85,8 @@ router.post("/user/signin", async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).json({
-      msg: "Something went wrong"
-    })
+      msg: "Something went wrong",
+    });
   }
 });
 
