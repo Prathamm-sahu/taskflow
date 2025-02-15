@@ -33,7 +33,8 @@ model Task {
   author      User     @relation(fields: [authorId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  Column      Column[]
+  columnId    String
+  column      Column   @relation(fields: [columnId], references: [id])
 }
 
 model Comment {
@@ -46,8 +47,7 @@ model Comment {
 model Column {
   id       String @id @default(cuid())
   title    String
-  authorId String
+  authorId String @unique
   author   User   @relation(fields: [authorId], references: [id])
-  taskId   String
-  task     Task   @relation(fields: [taskId], references: [id])
+  tasks    Task[]
 }
