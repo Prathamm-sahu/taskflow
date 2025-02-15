@@ -116,7 +116,7 @@ export function TaskCard({ task, columnId }: TaskCardProps) {
             </div>
           </div>
 
-          {task.labels.length > 0 && (
+          {/* {task.labels.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {task.labels.map((label) => (
                 <span
@@ -127,7 +127,7 @@ export function TaskCard({ task, columnId }: TaskCardProps) {
                 </span>
               ))}
             </div>
-          )}
+          )} */}
 
           <div className="flex items-center justify-between text-sm text-gray-500 ">
             <button
