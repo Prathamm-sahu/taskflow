@@ -7,7 +7,6 @@ interface SignUpFormProps {}
 
 interface SignUpInputProps {
   name: string;
-  username: string;
   email: string;
   password: string;
 }
@@ -16,7 +15,6 @@ const SignUpForm: FC<SignUpFormProps> = () => {
   const navigate = useNavigate()
   const [postInput, setPostInput] = useState<SignUpInputProps>({
     name: "",
-    username: "",
     email: "",
     password: "",
   });
@@ -54,17 +52,7 @@ const SignUpForm: FC<SignUpFormProps> = () => {
             }}
           />
           <LabelledInput
-            label="Username"
-            placeholder="Pratham123123"
-            onChange={(e) => {
-              setPostInput((prev) => ({
-                ...prev,
-                username: e.target.value,
-              }));
-            }}
-          />
-          <LabelledInput
-            label="email"
+            label="Email"
             placeholder="xyz@xyz.com"
             onChange={(e) => {
               setPostInput((prev) => ({
