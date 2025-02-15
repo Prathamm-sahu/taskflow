@@ -12,6 +12,7 @@ import type { Task } from "../types";
 import type React from "react"; // Added import for React
 import { nanoid } from "nanoid";
 import UpdateTaskModal from "./UpdateTaskModal";
+import { format } from "date-fns"
 
 interface TaskCardProps {
   task: Task;
@@ -116,11 +117,9 @@ export function TaskCard({ task, columnId }: TaskCardProps) {
             )}
             {task.comments.length}
           </button>
-          {/* {task.assignee && (
-              <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">
-                {task.assignee}
-              </div>
-            )} */}
+          <div className="w-10  text-zinc-600 flex items-center justify-center text-xs">
+          {format(new Date(task.createdAt), "MMM d")}
+          </div>
         </div>
 
         {showComments && (
