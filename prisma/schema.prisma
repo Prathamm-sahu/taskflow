@@ -20,6 +20,8 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Column    Column[]
+  Task      Task[]
 }
 
 model Task {
@@ -27,6 +29,8 @@ model Task {
   title       String
   description String
   status      Boolean
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   Column      Column[]
@@ -40,8 +44,10 @@ model Comment {
 }
 
 model Column {
-  id     String @id @default(cuid())
-  title  String
-  taskId String
-  task   Task   @relation(fields: [taskId], references: [id])
+  id       String @id @default(cuid())
+  title    String
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+  taskId   String
+  task     Task   @relation(fields: [taskId], references: [id])
 }
