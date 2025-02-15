@@ -20,7 +20,7 @@ const SignInForm = () => {
       const { data } = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, postInput)
       localStorage.setItem("token", data.token)
       localStorage.setItem("userId", data.userId)
-      navigate("/blogs")
+      navigate("/")
     } catch (error) {
       console.log(error)
     }
