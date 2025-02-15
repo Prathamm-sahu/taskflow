@@ -20,10 +20,10 @@ export default function KanbanBoard({ filteredColumns }: KanbanBoardProps) {
   }
 
   return (
-    <div>
+    <div className="">
       <div className="min-h-screen bg-zinc-100">
         <main className="p-6 overflow-x-auto min-h-screen" onDragOver={handleDragOver}>
-          <div className="flex gap-6">
+          <div className="flex gap-6 mt-16">
             {filteredColumns.map((column) => (
               <KanbanColumn key={column.id} column={column} />
             ))}
