@@ -6,7 +6,6 @@ import {
   Trash2,
   MessageSquareX,
   MessageSquarePlus,
-  FastForward,
 } from "lucide-react";
 import { useKanban } from "../context/KanbanContext";
 import type { Task } from "../types";
@@ -21,13 +20,11 @@ interface TaskCardProps {
 
 export function TaskCard({ task, columnId }: TaskCardProps) {
   const { dispatch } = useKanban();
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(task.title);
   const [showComments, setShowComments] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [open, setOpen] = useState(false);
 
-  const handleDragStart = (e: React.DragEvent) => {
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     e.dataTransfer.setData("taskId", task.id);
     e.dataTransfer.setData("columnId", columnId);
   };
