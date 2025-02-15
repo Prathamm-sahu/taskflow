@@ -4,14 +4,14 @@ import { useState } from "react"
 import { Plus } from "lucide-react"
 import { useKanban } from "../context/KanbanContext"
 import { nanoid } from "nanoid"
+import axios from "axios"
 
 export function AddColumnButton() {
   const { dispatch } = useKanban()
   const [isAdding, setIsAdding] = useState(false)
   const [columnTitle, setColumnTitle] = useState("")
-  const [open, setOpen] = useState(false)
 
-  const handleAddColumn = () => {
+  const handleAddColumn = async () => {
     if (columnTitle.trim()) {
       dispatch({
         type: "ADD_COLUMN",
@@ -21,6 +21,9 @@ export function AddColumnButton() {
           tasks: [],
         },
       })
+      
+      // Fix: set the userId
+      // await axios.post("/addColumn", { userId, columnTitle })
       setColumnTitle("")
       setIsAdding(false)
     }
