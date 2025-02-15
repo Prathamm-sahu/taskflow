@@ -6,7 +6,7 @@ export interface Task {
   description: string
   status: string
   comments: Comment[]
-  labels: string[]
+  labels?: string[]
   createdAt: number
 }
 
