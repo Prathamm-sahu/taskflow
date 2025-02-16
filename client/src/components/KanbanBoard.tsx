@@ -1,6 +1,3 @@
-import { useState } from "react"
-import { Search, Undo, Moon, Sun } from "lucide-react"
-import { useKanban } from "../context/KanbanContext"
 import { KanbanColumn } from "./KanbanColumn"
 import { AddColumnButton } from "./AddColumnButton"
 import { Task } from "../types"
