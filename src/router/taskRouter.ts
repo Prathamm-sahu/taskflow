@@ -13,8 +13,13 @@ router.get("/columnsData", authMiddleware, async (req: Request, res: Response) =
         authorId: userId
       },
       select: {
+        id: true,
         title: true,
-        tasks: true
+        tasks: {
+          include: {
+            comments: true
+          }
+        }
       }
     })
     
