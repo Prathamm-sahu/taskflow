@@ -2,6 +2,7 @@ import axios from "axios";
 import { ChangeEvent, FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../config/url";
+import { useKanban } from "../context/KanbanContext";
 
 interface SignUpFormProps {}
 
@@ -19,11 +20,16 @@ const SignUpForm: FC<SignUpFormProps> = () => {
     password: "",
   });
 
+  const { dispatch } = useKanban()
+
   const onSignUp = async () => {
     try {
       const { data } = await axios.post(`${BACKEND_URL}/user/signup`, postInput)
       localStorage.setItem("token", data.token)
       localStorage.setItem("userId", data.userId)
+      dispatch({ type: "ADD_COLUMN", column: { id: data.column1Id, title: "To Do", tasks: [] }})
+      dispatch({ type: "ADD_COLUMN", column: { id: data.column2Id, title: "In Progress", tasks: [] }})
+      dispatch({ type: "ADD_COLUMN", column: { id: data.column3Id, title: "Done", tasks: [] }})
       navigate("/")
     } catch (error) {
       console.log(error)
