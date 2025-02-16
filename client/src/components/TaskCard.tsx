@@ -13,6 +13,8 @@ import type React from "react"; // Added import for React
 import { nanoid } from "nanoid";
 import UpdateTaskModal from "./UpdateTaskModal";
 import { format } from "date-fns"
+import axios from "axios";
+import { BACKEND_URL } from "../config/url";
 
 interface TaskCardProps {
   task: Task;
@@ -30,26 +32,65 @@ export function TaskCard({ task, columnId }: TaskCardProps) {
     e.dataTransfer.setData("columnId", columnId);
   };
 
+  const deleteTaskInDB = async() => {
+    try {
+      await axios.delete(`${BACKEND_URL}/task/delete/${task.id}`, 
+        
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const handleDelete = () => {
     dispatch({
       type: "DELETE_TASK",
       columnId,
       taskId: task.id,
     });
+    deleteTaskInDB()
   };
+
+  const addCommentToDB = async (id: string) => {
+    try {
+      await axios.post(`${BACKEND_URL}/task/addComment`, 
+        {
+          id,
+          text: newComment,
+          taskId: task.id,
+          author: "JD", // Fix: authorId
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const handleAddComment = () => {
     if (newComment.trim()) {
+      const id = nanoid()
       dispatch({
         type: "ADD_COMMENT",
         taskId: task.id,
         comment: {
-          id: nanoid(),
+          id,
           text: newComment,
-          createdAt: Date.now(),
-          author: "JD", // Hardcoded for demo
+          taskId: task.id,
+          createdAt: new Date(),
+          author: "JD", // Fix: Hardcoded for demo
         },
       });
+      addCommentToDB(id)
       setNewComment("");
     }
   };
