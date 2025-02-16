@@ -1,8 +1,12 @@
 import express from "express"
 import { authRouter } from "./router/auth"
 import { taskRouter } from "./router/taskRouter"
+import cors from "cors"
 
 const app = express()
+
+app.use(cors())
+app.use(express.json())
 
 app.get("/", (req, res) => {
   res.send("Server started")
