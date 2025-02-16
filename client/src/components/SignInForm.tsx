@@ -2,8 +2,6 @@ import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../config/url";
-import { Column } from "../types";
-import { useKanban } from "../context/KanbanContext";
 
 interface SignInInputProps {
   email: string;
@@ -12,7 +10,6 @@ interface SignInInputProps {
 
 const SignInForm = () => {
   const navigate = useNavigate();
-  const { dispatch } = useKanban();
   const [postInput, setPostInput] = useState<SignInInputProps>({
     email: "",
     password: "",
@@ -28,38 +25,13 @@ const SignInForm = () => {
       localStorage.setItem("userId", data.userId);
 
       // Check whether you have to put update or not.
-      fetchData();
       navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const fetchData = async () => {
-    try {
-      const { data }: { data: Column[] } = await axios.get(
-        `${BACKEND_URL}/task/columnData`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
-
-      data.map((col) => {
-        dispatch({
-          type: "ADD_COLUMN",
-          column: {
-            id: col.id,
-            title: col.title,
-            tasks: col.tasks,
-          },
-        });
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
   return (
     <div className="h-screen flex justify-center items-center">
       <div className="flex flex-col">
