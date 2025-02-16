@@ -17,7 +17,7 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [description, setDescription] = useState("");
   const [open, setOpen] = useState(false);
-  const userId = localStorage.getItem("userId")
+  const userId = localStorage.getItem("userId");
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -32,6 +32,27 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
         taskId,
       });
     }
+
+    moveTaskInDB(taskId);
+  };
+
+  const moveTaskInDB = async (taskId: string) => {
+    try {
+      await axios.patch(
+        `${BACKEND_URL}/task/changeColumn`,
+        {
+          columnId: column.id,
+          taskId,
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const addTaskInDB = async (id: string) => {
@@ -43,7 +64,7 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
           title: newTaskTitle,
           description,
           authorId: userId,
-          columnId: column.id
+          columnId: column.id,
         },
         {
           headers: {
@@ -66,7 +87,7 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
           id,
           title: newTaskTitle,
           description: description,
-          authorId: userId || "" ,
+          authorId: userId || "",
           labels: [],
           comments: [],
           createdAt: new Date(),

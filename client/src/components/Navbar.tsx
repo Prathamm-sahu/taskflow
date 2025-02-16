@@ -36,12 +36,12 @@ const Navbar: FC<NavbarProps> = ({ searchQuery, setSearchQuery }) => {
       </div>
       {userId ? (
         <div className="flex items-center gap-4">
-          <button
+          {/* <button
             onClick={() => dispatch({ type: "UNDO" })}
             className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg "
           >
             <Undo className="w-5 h-5" />
-          </button>
+          </button> */}
 
           <div className="flex gap-5 items-center justify-center">
             <div className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">

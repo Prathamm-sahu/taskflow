@@ -5,10 +5,12 @@ import { useKanban } from "../context/KanbanContext";
 import { Column } from "../types";
 import axios from "axios";
 import { BACKEND_URL } from "../config/url";
+import { Loader } from "lucide-react";
 
 function Home() {
   const { state, dispatch } = useKanban();
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const filteredColumns = state.columns.map((column) => ({
     ...column,
@@ -19,6 +21,7 @@ function Home() {
 
   const fetchData = async () => {
     try {
+      setIsLoading(true);
       const { data }: { data: Column[] } = await axios.get(
         `${BACKEND_URL}/task/columnData`,
         {
@@ -40,13 +43,26 @@ function Home() {
       });
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchData()
-  }, [])
-  
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div>
+        <Navbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <div className="min-h-screen flex items-center justify-center">
+          <Loader className="animate-spin h-6 w-6" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Navbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />

@@ -1,18 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Edit2,
-  Trash2,
-  MessageSquareX,
-  MessageSquarePlus,
-} from "lucide-react";
+import { Edit2, Trash2, MessageSquareX, MessageSquarePlus } from "lucide-react";
 import { useKanban } from "../context/KanbanContext";
 import type { Task } from "../types";
 import type React from "react"; // Added import for React
 import { nanoid } from "nanoid";
 import UpdateTaskModal from "./UpdateTaskModal";
-import { format } from "date-fns"
+import { format } from "date-fns";
 import axios from "axios";
 import { BACKEND_URL } from "../config/url";
 
@@ -32,20 +27,21 @@ export function TaskCard({ task, columnId }: TaskCardProps) {
     e.dataTransfer.setData("columnId", columnId);
   };
 
-  const deleteTaskInDB = async() => {
+  const deleteTaskInDB = async () => {
     try {
-      await axios.delete(`${BACKEND_URL}/task/delete/${task.id}`, 
-        
+      await axios.delete(
+        `${BACKEND_URL}/task/delete/${task.id}`,
+
         {
           headers: {
             Authorization: localStorage.getItem("token"),
           },
         }
-      )
+      );
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const handleDelete = () => {
     dispatch({
@@ -53,32 +49,33 @@ export function TaskCard({ task, columnId }: TaskCardProps) {
       columnId,
       taskId: task.id,
     });
-    deleteTaskInDB()
+    deleteTaskInDB();
   };
 
   const addCommentToDB = async (id: string) => {
     try {
-      await axios.post(`${BACKEND_URL}/task/addComment`, 
+      await axios.post(
+        `${BACKEND_URL}/task/addComment`,
         {
           id,
           text: newComment,
           taskId: task.id,
-          author: "JD", // Fix: authorId
+          authorId: localStorage.getItem("userId") 
         },
         {
           headers: {
             Authorization: localStorage.getItem("token"),
           },
         }
-      )
+      );
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const handleAddComment = () => {
     if (newComment.trim()) {
-      const id = nanoid()
+      const id = nanoid();
       dispatch({
         type: "ADD_COMMENT",
         taskId: task.id,
@@ -90,7 +87,7 @@ export function TaskCard({ task, columnId }: TaskCardProps) {
           author: "JD", // Fix: Hardcoded for demo
         },
       });
-      addCommentToDB(id)
+      addCommentToDB(id);
       setNewComment("");
     }
   };
@@ -159,7 +156,7 @@ export function TaskCard({ task, columnId }: TaskCardProps) {
             {task.comments.length}
           </button>
           <div className="w-10  text-zinc-600 flex items-center justify-center text-xs">
-          {format(new Date(task.createdAt), "MMM d")}
+            {format(new Date(task.createdAt), "MMM d")}
           </div>
         </div>
 
@@ -191,9 +188,15 @@ export function TaskCard({ task, columnId }: TaskCardProps) {
                   className="text-sm p-2 bg-gray-50 rounded "
                 >
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-medium">{comment.author}</span>
+                    <div className="relative flex h-6 w-6 shrink-0 overflow-hidden rounded-full">
+                      <img
+                        src={"/logo.png"}
+                        alt="CN"
+                        className="aspect-square h-full w-full"
+                      />
+                    </div>
                     <span className="text-gray-500 ">
-                      {new Date(comment.createdAt).toLocaleDateString()}
+                      {format(new Date(task.createdAt), "MMM d")}
                     </span>
                   </div>
                   <p>{comment.text}</p>

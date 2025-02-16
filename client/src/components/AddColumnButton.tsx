@@ -5,11 +5,29 @@ import { Plus } from "lucide-react"
 import { useKanban } from "../context/KanbanContext"
 import { nanoid } from "nanoid"
 import axios from "axios"
+import { BACKEND_URL } from "../config/url"
 
 export function AddColumnButton() {
   const { dispatch } = useKanban()
   const [isAdding, setIsAdding] = useState(false)
   const [columnTitle, setColumnTitle] = useState("")
+
+  const addColumnToDB = async () => {
+    try {
+      await axios.post(`${BACKEND_URL}/task/addColumn`, 
+        {
+          title: columnTitle,
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  } 
 
   const handleAddColumn = async () => {
     if (columnTitle.trim()) {
@@ -22,6 +40,7 @@ export function AddColumnButton() {
         },
       })
       
+      addColumnToDB()
       // Fix: set the userId
       // await axios.post("/addColumn", { userId, columnTitle })
       setColumnTitle("")

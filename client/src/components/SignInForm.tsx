@@ -2,6 +2,7 @@ import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../config/url";
+import { Loader } from "lucide-react";
 
 interface SignInInputProps {
   email: string;
@@ -14,9 +15,11 @@ const SignInForm = () => {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSignIn = async () => {
     try {
+      setIsLoading(true)
       const { data } = await axios.post(
         `${BACKEND_URL}/user/signin`,
         postInput
@@ -28,6 +31,8 @@ const SignInForm = () => {
       navigate("/");
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -71,8 +76,9 @@ const SignInForm = () => {
           <button
             type="button"
             onClick={onSignIn}
-            className="w-full mt-6 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+            className="flex justify-center items-center w-full mt-6 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
           >
+            {isLoading ? <Loader className="animate-spin h-4 w-4 mr-2" /> : null }
             Sign In
           </button>
         </div>

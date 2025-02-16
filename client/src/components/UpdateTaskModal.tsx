@@ -3,6 +3,7 @@ import Dialog from "./ui/Dialog";
 import { useKanban } from "../context/KanbanContext";
 import axios from "axios";
 import { BACKEND_URL } from "../config/url";
+import { Loader } from "lucide-react";
 
 interface UpdateTaskModalProps {
   taskId: string
@@ -14,6 +15,7 @@ interface UpdateTaskModalProps {
 const UpdateTaskModal: FC<UpdateTaskModalProps> = ({ taskId, columnId, open, onClose }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
   const { state, dispatch } = useKanban()
 
   const findingTask = () => {
@@ -26,6 +28,7 @@ const UpdateTaskModal: FC<UpdateTaskModalProps> = ({ taskId, columnId, open, onC
 
   const updateTask = async () => {
     try {
+      setIsLoading(true)
       await axios.put(`${BACKEND_URL}/task/update`, 
         {
           title,
@@ -40,6 +43,8 @@ const UpdateTaskModal: FC<UpdateTaskModalProps> = ({ taskId, columnId, open, onC
       )
     } catch (error) {
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
   } 
   const handleSaveEdit = () => {
@@ -96,6 +101,7 @@ const UpdateTaskModal: FC<UpdateTaskModalProps> = ({ taskId, columnId, open, onC
             onClick={handleSaveEdit}
             className="bg-slate-900 hover:bg-slate-800/100 text-white p-2 rounded-md mt-4 w-28"
           >
+            {isLoading ? <Loader className="animate-spin h-4 w-4 mr-2" /> : null }
             Add task
           </button>
         </div>

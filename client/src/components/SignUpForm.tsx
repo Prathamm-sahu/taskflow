@@ -3,6 +3,7 @@ import { ChangeEvent, FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../config/url";
 import { useKanban } from "../context/KanbanContext";
+import { Loader } from "lucide-react";
 
 interface SignUpFormProps {}
 
@@ -19,11 +20,13 @@ const SignUpForm: FC<SignUpFormProps> = () => {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const { dispatch } = useKanban()
 
   const onSignUp = async () => {
     try {
+      setIsLoading(true)
       const { data } = await axios.post(`${BACKEND_URL}/user/signup`, postInput)
       localStorage.setItem("token", data.token)
       localStorage.setItem("userId", data.userId)
@@ -33,6 +36,8 @@ const SignUpForm: FC<SignUpFormProps> = () => {
       navigate("/")
     } catch (error) {
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
   }
   return (
@@ -82,8 +87,9 @@ const SignUpForm: FC<SignUpFormProps> = () => {
           <button
             type="button"
             onClick={onSignUp}
-            className="w-full mt-6 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+            className="flex justify-center items-center w-full mt-6 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
           >
+            {isLoading ? <Loader className="animate-spin h-4 w-4 mr-2" /> : null }
             Sign Up
           </button>
         </div>
