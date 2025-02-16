@@ -21,7 +21,7 @@ const SignUpForm: FC<SignUpFormProps> = () => {
 
   const onSignUp = async () => {
     try {
-      const { data } = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, postInput)
+      const { data } = await axios.post(`${BACKEND_URL}/user/signup`, postInput)
       localStorage.setItem("token", data.token)
       localStorage.setItem("userId", data.userId)
       navigate("/blogs")

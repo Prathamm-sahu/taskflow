@@ -21,7 +21,7 @@ const SignInForm = () => {
   const onSignIn = async () => {
     try {
       const { data } = await axios.post(
-        `${BACKEND_URL}/api/v1/user/signin`,
+        `${BACKEND_URL}/user/signin`,
         postInput
       );
       localStorage.setItem("token", data.token);
