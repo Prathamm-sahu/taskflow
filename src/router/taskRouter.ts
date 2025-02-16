@@ -29,6 +29,26 @@ router.get("/columnsData", authMiddleware, async (req: Request, res: Response) =
   }
 })
 
+router.post("/addTask", async (req, res) => {
+  try {
+    const { title, description, status, userId, columnId } = req.body
+
+    const newTask = await db.task.create({
+      data: {
+        title,
+        description,
+        status,
+        authorId: userId,
+        columnId
+      }
+    })
+
+    res.status(201).json(newTask)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 router.put("/updateColumn", authMiddleware, async(req: Request, res: Response) => {
   try {
     const { userId, taskId, title, description, status } = req.body
