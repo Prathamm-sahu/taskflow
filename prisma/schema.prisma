@@ -25,22 +25,25 @@ model User {
 }
 
 model Task {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
   description String
   status      Boolean
   authorId    String
-  author      User     @relation(fields: [authorId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  author      User      @relation(fields: [authorId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   columnId    String
-  column      Column   @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  column      Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  comments     Comment[]
 }
 
 model Comment {
   id        String   @id @default(cuid())
   text      String
   author    String
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 }
 
