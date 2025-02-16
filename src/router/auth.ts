@@ -20,28 +20,38 @@ router.post("/user/signup", async (req: Request, res: Response) => {
     });
 
     // As soon as the user is created. Create three columns
-    await db.column.createMany({
-      data: [
+    const column1 = await db.column.create({
+      data: 
         {
           title: "To Do",
           authorId: user.id,
-        },
+        }
+    });
+
+    const column2 = await db.column.create({
+      data: 
         {
           title: "In Progress",
           authorId: user.id,
         },
-        {
-          title: "Done",
-          authorId: user.id,
-        },
-      ],
-    });
+      
+    })
+
+    const column3 = await db.column.create({
+      data: {
+        title: "Done",
+        authorId: user.id,
+      }
+    })
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string);
 
     res.status(201).json({
       token,
       userId: user.id,
+      column1Id: column1.id,
+      column2Id: column2.id,
+      column3Id: column3.id
     });
   } catch (error: any) {
     console.log(error.message);
