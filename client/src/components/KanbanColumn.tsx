@@ -5,6 +5,8 @@ import { TaskCard } from "./TaskCard";
 import type { Column } from "../types";
 import { nanoid } from "nanoid";
 import Dialog from "./ui/Dialog";
+import axios from "axios";
+import { BACKEND_URL } from "../config/url";
 
 interface KanbanColumnProps {
   column: Column;
@@ -31,24 +33,48 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
     }
   };
 
+  const addTaskInDB = async (id: string) => {
+    try {
+      await axios.post(
+        `${BACKEND_URL}/task/add`,
+        {
+          id,
+          title: newTaskTitle,
+          description,
+          authorId: "adf", // Fix: authorId
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleAddTask = () => {
     if (newTaskTitle.trim()) {
+      const id = nanoid();
       dispatch({
         type: "ADD_TASK",
         columnId: column.id,
         task: {
-          id: nanoid(),
+          id,
           title: newTaskTitle,
           description: description,
-          status: column.id,
+          authorId: "adsfaf", // Fix: AuthorId
           labels: [],
           comments: [],
-          createdAt: Date.now(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
       });
+
+      addTaskInDB(id);
       setNewTaskTitle("");
       setDescription("");
-      console.log(description);
       setOpen(false);
     }
   };
