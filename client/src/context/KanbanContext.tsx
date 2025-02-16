@@ -4,11 +4,7 @@ import { createContext, useContext, useReducer } from "react"
 import { produce } from "immer"
 import type { KanbanState, KanbanAction, Column } from "../types"
 
-const initialColumns: Column[] = [
-  { id: "todo", title: "To Do", tasks: [] },
-  { id: "in-progress", title: "In Progress", tasks: [] },
-  { id: "done", title: "Done", tasks: [] },
-]
+const initialColumns: Column[] = []
 
 const initialState: KanbanState = {
   columns: initialColumns,
