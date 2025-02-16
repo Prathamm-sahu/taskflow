@@ -28,7 +28,6 @@ model Task {
   id          String    @id @default(cuid())
   title       String
   description String
-  status      Boolean
   authorId    String
   author      User      @relation(fields: [authorId], references: [id])
   createdAt   DateTime  @default(now())
