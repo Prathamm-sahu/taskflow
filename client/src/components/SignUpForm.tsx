@@ -24,7 +24,7 @@ const SignUpForm: FC<SignUpFormProps> = () => {
       const { data } = await axios.post(`${BACKEND_URL}/user/signup`, postInput)
       localStorage.setItem("token", data.token)
       localStorage.setItem("userId", data.userId)
-      navigate("/blogs")
+      navigate("/")
     } catch (error) {
       console.log(error)
     }
@@ -68,7 +68,7 @@ const SignUpForm: FC<SignUpFormProps> = () => {
             onChange={(e) => {
               setPostInput((prev) => ({
                 ...prev,
-                name: e.target.value,
+                password: e.target.value,
               }));
             }}
           />
