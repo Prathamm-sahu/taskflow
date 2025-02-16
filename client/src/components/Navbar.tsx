@@ -52,7 +52,11 @@ const Navbar: FC<NavbarProps> = ({ searchQuery, setSearchQuery }) => {
               />
             </div>
 
-            <button>
+            <button onClick={() => {
+              localStorage.removeItem("token")
+              localStorage.removeItem("userId")
+              window.location.pathname = "/signin"
+            }}>
               <LogOut />
             </button>
           </div>
