@@ -17,9 +17,9 @@ const Navbar: FC<NavbarProps> = ({ searchQuery, setSearchQuery }) => {
     <header className="fixed min-w-full flex items-center justify-between px-6 py-4 bg-white border-b ">
       <div className="flex items-center gap-2">
         <div className="flex items-center justify-center w-8 h-8 text-white bg-blue-600 rounded">
-          K
+          T
         </div>
-        <h1 className="text-xl font-bold">KanbanFlow</h1>
+        <h1 className="text-xl font-bold">TaskFlow</h1>
       </div>
 
       <div className="flex items-center w-1/3">
