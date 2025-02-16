@@ -17,6 +17,7 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [description, setDescription] = useState("");
   const [open, setOpen] = useState(false);
+  const userId = localStorage.getItem("userId")
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -41,7 +42,8 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
           id,
           title: newTaskTitle,
           description,
-          authorId: "adf", // Fix: authorId
+          authorId: userId,
+          columnId: column.id
         },
         {
           headers: {
@@ -64,7 +66,7 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
           id,
           title: newTaskTitle,
           description: description,
-          authorId: "adsfaf", // Fix: AuthorId
+          authorId: userId || "" ,
           labels: [],
           comments: [],
           createdAt: new Date(),
