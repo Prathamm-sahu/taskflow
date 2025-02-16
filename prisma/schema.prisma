@@ -49,7 +49,7 @@ model Comment {
 model Column {
   id       String @id @default(cuid())
   title    String
-  authorId String @unique
+  authorId String 
   author   User   @relation(fields: [authorId], references: [id])
   tasks    Task[]
 }
