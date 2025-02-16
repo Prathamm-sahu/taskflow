@@ -1,6 +1,8 @@
 import { FC, useEffect, useState } from "react";
 import Dialog from "./ui/Dialog";
 import { useKanban } from "../context/KanbanContext";
+import axios from "axios";
+import { BACKEND_URL } from "../config/url";
 
 interface UpdateTaskModalProps {
   taskId: string
@@ -22,6 +24,24 @@ const UpdateTaskModal: FC<UpdateTaskModalProps> = ({ taskId, columnId, open, onC
     setDescription(task?.description || "")
   }
 
+  const updateTask = async () => {
+    try {
+      await axios.put(`${BACKEND_URL}/task/update`, 
+        {
+          title,
+          description,
+          taskId,
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  } 
   const handleSaveEdit = () => {
     if (title.trim() && description.trim()) {
       dispatch({
@@ -30,6 +50,7 @@ const UpdateTaskModal: FC<UpdateTaskModalProps> = ({ taskId, columnId, open, onC
         updates: { title, description },
       });
     }
+    updateTask()
     onClose()
   };
 
