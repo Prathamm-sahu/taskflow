@@ -6,7 +6,8 @@ const router = Router()
 
 router.get("/columnsData", authMiddleware, async (req: Request, res: Response) => {
   try {
-    const { userId } = req.body
+    // @ts-ignore
+    const userId = req.userId
     
     const columnData = await db.column.findMany({
       where: {
@@ -29,15 +30,16 @@ router.get("/columnsData", authMiddleware, async (req: Request, res: Response) =
   }
 })
 
-router.post("/addTask", async (req, res) => {
+router.post("/add", async (req, res) => {
   try {
-    const { title, description, status, userId, columnId } = req.body
+    // @ts-ignore
+    const userId = req.userId
+    const { title, description, columnId } = req.body
 
     const newTask = await db.task.create({
       data: {
         title,
         description,
-        status,
         authorId: userId,
         columnId
       }
@@ -49,9 +51,11 @@ router.post("/addTask", async (req, res) => {
   }
 })
 
-router.put("/updateColumn", authMiddleware, async(req: Request, res: Response) => {
+router.put("/update", authMiddleware, async(req: Request, res: Response) => {
   try {
-    const { userId, taskId, title, description, status } = req.body
+    // @ts-ignore
+    const userId = req.userId
+    const { taskId, title, description } = req.body
     await db.task.update({
       where: {
         id: taskId,
@@ -60,7 +64,6 @@ router.put("/updateColumn", authMiddleware, async(req: Request, res: Response) =
       data: {
         title,
         description,
-        status
       }
     })
 
@@ -70,12 +73,13 @@ router.put("/updateColumn", authMiddleware, async(req: Request, res: Response) =
   }
 })
 
-router.delete("/delete", authMiddleware, async(req: Request, res: Response) => {
+router.delete("/delete/:taskId", authMiddleware, async(req: Request, res: Response) => {
   try {
-    const { userId, taskId } = req.body
+    // @ts-ignore
+    const userId = req.userId
     await db.task.delete({
       where: {
-        id: taskId,
+        id: req.params.taskId,
         authorId: userId
       }
     })
@@ -113,6 +117,24 @@ router.delete("/deleteColumn", authMiddleware, async (req: Request, res: Respons
     })
 
     res.json("Column Deleted successful")
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+router.post("/addComment", authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const { commentId, text, authorName, taskId  } = req.body
+    await db.comment.create({
+      data: {
+        id: commentId,
+        author: authorName,
+        text,
+        taskId
+      }
+    })
+
+    res.json("Task has been successfully created")
   } catch (error) {
     console.log(error)
   }
