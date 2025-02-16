@@ -1,14 +1,17 @@
-import { Moon, Search, Sun, Undo } from "lucide-react";
+import { LogOut, Moon, Search, Sun, Undo } from "lucide-react";
 import { Dispatch, FC, SetStateAction } from "react";
 import { useKanban } from "../context/KanbanContext";
+import { useNavigate } from "react-router-dom";
 
 interface NavbarProps {
-  searchQuery: string
-  setSearchQuery: Dispatch<SetStateAction<string>>
+  searchQuery: string;
+  setSearchQuery: Dispatch<SetStateAction<string>>;
 }
 
 const Navbar: FC<NavbarProps> = ({ searchQuery, setSearchQuery }) => {
-  const { state, dispatch } = useKanban()
+  const { dispatch } = useKanban();
+  const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
 
   return (
     <header className="fixed min-w-full flex items-center justify-between px-6 py-4 bg-white border-b ">
@@ -28,31 +31,40 @@ const Navbar: FC<NavbarProps> = ({ searchQuery, setSearchQuery }) => {
             className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            />
+          />
         </div>
       </div>
+      {userId ? (
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => dispatch({ type: "UNDO" })}
+            className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg "
+          >
+            <Undo className="w-5 h-5" />
+          </button>
 
-      <div className="flex items-center gap-4">
-        <button
-          onClick={() => dispatch({ type: "UNDO" })}
-          className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg "
-          >
-          <Undo className="w-5 h-5" />
-        </button>
-        <button
-          onClick={() => dispatch({ type: "TOGGLE_THEME" })}
-          className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg"
-          >
-          {state.darkMode ? (
-            <Sun className="w-5 h-5" />
-          ) : (
-            <Moon className="w-5 h-5" />
-          )}
-        </button>
-        <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center">
-          JD
+          <div className="flex gap-5 items-center justify-center">
+            <div className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
+              <img
+                src={"/logo.png"}
+                alt="CN"
+                className="aspect-square h-full w-full"
+              />
+            </div>
+
+            <button>
+              <LogOut />
+            </button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <button
+          className="bg-slate-900 hover:bg-slate-800/100 text-white p-2 rounded-md w-20"
+          onClick={() => navigate("/signin")}
+        >
+          Sign In
+        </button>
+      )}
     </header>
   );
 };
