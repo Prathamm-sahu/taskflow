@@ -4,7 +4,7 @@ import db from "../lib/db"
 
 const router = Router()
 
-router.get("/columnsData", authMiddleware, async (req: Request, res: Response) => {
+router.get("/columnData", authMiddleware, async (req: Request, res: Response) => {
   try {
     // @ts-ignore
     const userId = req.userId
@@ -30,12 +30,11 @@ router.get("/columnsData", authMiddleware, async (req: Request, res: Response) =
   }
 })
 
-router.post("/add", async (req, res) => {
+router.post("/add", authMiddleware, async (req: Request, res: Response) => {
   try {
     // @ts-ignore
     const userId = req.userId
     const { title, description, columnId } = req.body
-
     const newTask = await db.task.create({
       data: {
         title,
