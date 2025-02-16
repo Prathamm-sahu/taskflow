@@ -5,14 +5,17 @@ export interface Task {
   title: string
   description: string
   status: string
+  authorId: string
   comments: Comment[]
   labels?: string[]
-  createdAt: number
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface Comment {
   id: string
   text: string
+  taskId: string
   author: string
   createdAt: number 
 }
