@@ -4,7 +4,7 @@ export interface Task {
   id: string
   title: string
   description: string
-  status: string
+  // status: string
   authorId: string
   comments: Comment[]
   labels?: string[]
@@ -17,7 +17,7 @@ export interface Comment {
   text: string
   taskId: string
   author: string
-  createdAt: number 
+  createdAt: Date 
 }
 
 export interface Column {
