@@ -52,6 +52,10 @@ function Home() {
     fetchData();
   }, []);
 
+  if(!localStorage.getItem("userId")) {
+    window.location.pathname = "/signup"
+  }
+
   if (isLoading) {
     return (
       <div>
