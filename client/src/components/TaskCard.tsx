@@ -10,6 +10,7 @@ import UpdateTaskModal from "./UpdateTaskModal";
 import { format } from "date-fns";
 import axios from "axios";
 import { BACKEND_URL } from "../config/url";
+import { toast } from "sonner";
 
 interface TaskCardProps {
   task: Task;
@@ -50,6 +51,7 @@ export function TaskCard({ task, columnId }: TaskCardProps) {
       taskId: task.id,
     });
     deleteTaskInDB();
+    toast.warning("Task deleted successfully")
   };
 
   const addCommentToDB = async (id: string) => {

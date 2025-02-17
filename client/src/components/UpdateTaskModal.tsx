@@ -4,6 +4,7 @@ import { useKanban } from "../context/KanbanContext";
 import axios from "axios";
 import { BACKEND_URL } from "../config/url";
 import { Loader } from "lucide-react";
+import { toast } from "sonner";
 
 interface UpdateTaskModalProps {
   taskId: string
@@ -57,6 +58,7 @@ const UpdateTaskModal: FC<UpdateTaskModalProps> = ({ taskId, columnId, open, onC
     }
     updateTask()
     onClose()
+    toast.success("Task updated successfully")
   };
 
   useEffect(() => {

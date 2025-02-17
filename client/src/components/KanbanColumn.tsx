@@ -7,6 +7,7 @@ import { nanoid } from "nanoid";
 import Dialog from "./ui/Dialog";
 import axios from "axios";
 import { BACKEND_URL } from "../config/url";
+import { toast } from "sonner";
 
 interface KanbanColumnProps {
   column: Column;
@@ -99,6 +100,7 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
       setNewTaskTitle("");
       setDescription("");
       setOpen(false);
+      toast.success("New task added")
     }
   };
 
