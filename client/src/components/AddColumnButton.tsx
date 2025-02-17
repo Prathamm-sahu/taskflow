@@ -39,7 +39,7 @@ export function AddColumnButton() {
           tasks: [],
         },
       })
-      
+
       addColumnToDB()
       // Fix: set the userId
       // await axios.post("/addColumn", { userId, columnTitle })
@@ -49,13 +49,13 @@ export function AddColumnButton() {
   }
 
   return (
-    <div className="flex-shrink-0 w-80">
+    <div className="column-container">
       {isAdding ? (
-        <div className="bg-gray-50 rounded-lg p-4">
+        <div className="column-add-form">
           <input
             type="text"
             placeholder="Enter column title..."
-            className="w-full p-2 mb-2 border rounded"
+            className="column-input"
             value={columnTitle}
             onChange={(e) => setColumnTitle(e.target.value)}
             onKeyDown={(e) => {
@@ -64,16 +64,16 @@ export function AddColumnButton() {
             }}
             autoFocus
           />
-          <div className="flex gap-2">
+          <div className="column-buttons">
             <button
               onClick={handleAddColumn}
-              className="px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700"
+              className="column-add-button"
             >
               Add
             </button>
             <button
               onClick={() => setIsAdding(false)}
-              className="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded hover:bg-gray-200"
+              className="column-cancel-button"
             >
               Cancel
             </button>

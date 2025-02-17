@@ -96,22 +96,22 @@ export function TaskCard({ task, columnId }: TaskCardProps) {
     <div
       draggable
       onDragStart={handleDragStart}
-      className="bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow border-2 border-solid border-gray-100"
+      className="task-card"
     >
-      <div className="space-y-2">
-        <div className="flex items-start justify-between gap-2">
+      <div className="">
+        <div className="task-header">
           <div className="">
-            <h4 className="font-medium text-md text-zinc-700 break-words break-all">
+            <h4 className="task-title">
               {task.title}
             </h4>
-            <p className="text-zinc-600 overflow-wrap break-words break-all">
+            <p className="task-description">
               {task.description}
             </p>
           </div>
-          <div className="flex gap-1">
+          <div className="task-actions">
             <button
               onClick={() => setOpen(true)}
-              className="p-1 text-gray-500 hover:bg-gray-100 rounded "
+              className="task-action-button "
             >
               <Edit2 className="w-4 h-4" />
             </button>
@@ -123,9 +123,9 @@ export function TaskCard({ task, columnId }: TaskCardProps) {
             />
             <button
               onClick={handleDelete}
-              className="p-1 text-gray-500 hover:bg-gray-100 rounded "
+              className="task-action-button"
             >
-              <Trash2 className="w-4 h-4" />
+              <Trash2 className="plus-icon" />
             </button>
           </div>
         </div>
@@ -143,7 +143,7 @@ export function TaskCard({ task, columnId }: TaskCardProps) {
             </div>
           )} */}
 
-        <div className="flex items-center justify-between text-sm text-gray-500 ">
+        <div className="task-footer">
           <button
             onClick={() => setShowComments(!showComments)}
             className="flex items-center gap-1 hover:text-gray-700 "
@@ -161,45 +161,45 @@ export function TaskCard({ task, columnId }: TaskCardProps) {
         </div>
 
         {showComments && (
-          <div className="mt-2 space-y-2 max-h-60 overflow-y-auto overflow-x-hidden">
-            <div className="flex gap-2">
+          <div className="comment-section">
+            <div className="comment-input-container">
               <input
                 type="text"
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Add a comment..."
-                className="flex-1 p-1 text-sm border rounded "
+                className="comment-input "
                 onKeyDown={(e) => {
                   if (e.key === "Enter") handleAddComment();
                 }}
               />
               <button
                 onClick={handleAddComment}
-                className="px-2 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700"
+                className="comment-button"
               >
                 Add
               </button>
             </div>
 
-            <div className="flex flex-col-reverse">
+            <div className="comment-list">
               {task.comments.map((comment) => (
                 <div
                   key={comment.id}
-                  className="text-sm p-2 bg-gray-50 rounded "
+                  className="comment-item "
                 >
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="relative flex h-6 w-6 shrink-0 overflow-hidden rounded-full">
+                  <div className="comment-header">
+                    <div className="comment-avatar">
                       <img
                         src={"/logo.png"}
                         alt="CN"
                         className="aspect-square h-full w-full"
                       />
                     </div>
-                    <span className="text-gray-500 ">
+                    <span className="comment-date ">
                       {format(new Date(task.createdAt), "MMM d")}
                     </span>
                   </div>
-                  <p>{comment.text}</p>
+                  <p className="break-all break-words">{comment.text}</p>
                 </div>
               ))}
             </div>

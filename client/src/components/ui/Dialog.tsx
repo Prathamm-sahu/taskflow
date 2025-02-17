@@ -1,25 +1,42 @@
-import { X } from 'lucide-react'
-import { FC } from 'react'
+import { X } from "lucide-react";
+import { FC } from "react";
 
 interface DialogProps {
-  open: boolean,
-  onClose: () => void
-  children: React.ReactNode
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
 }
 
 const Dialog: FC<DialogProps> = ({ open, onClose, children }) => {
   return (
     // backdrop
-    <div onClick={onClose} className={`fixed inset-0 flex justify-center items-center transition-colors ${open ? "visible bg-black/20" : "invisible"}`}>
+    <div
+      onClick={onClose}
+      className="modal-overlay"
+      style={
+        open
+          ? { visibility: "visible", backgroundColor: "#00000033" }
+          : { visibility: "hidden" }
+      }
+    >
       {/* Modal */}
-      <div onClick={(e) => e.stopPropagation()} className={`bg-white rounded-xl shadow p-6 transition-all ${open ? "scale-100 opacity-100" : "scale-125 opacity-0"}`}>
-        <button onClick={onClose} className='absolute top-2 right-2 p-1 rounded-lg text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600'>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="modal-content" 
+        style={open ? { transform: `scale(1)`,
+          opacity: 1} : {transform: "scale(1.25)",
+            opacity: 0}}
+      >
+        <button
+          onClick={onClose}
+          className="modal-close-button"
+        >
           <X />
         </button>
         {children}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Dialog
+export default Dialog;

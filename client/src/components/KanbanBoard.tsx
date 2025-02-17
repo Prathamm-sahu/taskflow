@@ -18,9 +18,9 @@ export default function KanbanBoard({ filteredColumns }: KanbanBoardProps) {
 
   return (
     <div className="">
-      <div className="min-h-screen bg-zinc-100">
-        <main className="p-6 overflow-x-auto min-h-screen" onDragOver={handleDragOver}>
-          <div className="flex gap-6 mt-16">
+      <div className="kanban-container">
+        <main className="kanban-main" onDragOver={handleDragOver}>
+          <div className="kanban-columns">
             {filteredColumns.map((column) => (
               <KanbanColumn key={column.id} column={column} />
             ))}

@@ -6,14 +6,14 @@ interface QuoteProps {
 
 const Quote: FC<QuoteProps> = () => {
   return (
-    <div className='h-screen flex flex-col justify-center items-center px-28 bg-gray-100'>
-      <div className='mb-4 text-3xl font-bold'>
+    <div className='quote-container'>
+      <div className='quote-text'>
       "The customer support I recieved was exceptional. The support team went above and beyond to address my concerns."
       </div>
-      <div className='w-full font-bold text-xl'>
+      <div className='quote-author'>
         Jules Winnfeild
       </div>
-      <div className='w-full text-gray-600 font-semibold'>
+      <div className='quote-role'>
         CEO, Acme Inc
       </div>
     </div>

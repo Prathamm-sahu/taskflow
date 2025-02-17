@@ -104,23 +104,21 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
 
   return (
     <div
-      className="flex-shrink-0 w-80 bg-white rounded-lg p-4 "
+      className="kanban-column"
       onDrop={handleDrop}
       onDragOver={(e) => e.preventDefault()}
     >
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <h3 className="font-semibold ">{column.title}</h3>
-          <span className="text-sm text-gray-500 ">{column.tasks.length}</span>
+      <div className="kanban-column-container">
+        <div className="kanban-column-title-container">
+          <h3 className="kanban-column-title ">{column.title}</h3>
+          <span className="kanban-column-task-count ">{column.tasks.length}</span>
         </div>
-        <button className="p-1 hover:bg-gray-200 rounded ">
-          <MoreHorizontal className="w-4 h-4 text-gray-500" />
-        </button>
+        
       </div>
 
-      <div className="border-b w-full mb-2" />
+      <div className="border-b" />
 
-      <div className="flex flex-col-reverse space-y-3">
+      <div className="kanban-task-list">
         {column.tasks.map((task) => (
           <TaskCard key={task.id} task={task} columnId={column.id} />
         ))}
@@ -131,20 +129,20 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
           onClick={() => {
             setOpen(true);
           }}
-          className="flex items-center gap-1 mt-3 px-3 py-2 w-full text-gray-600 hover:bg-gray-100 rounded"
+          className="kanban-add-task-button"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="plus-icon" />
           Add a card
         </button>
         <Dialog open={open} onClose={() => setOpen(false)}>
-          <div className="p-2 sm:w-[380px] md:w-[450px]">
-            <h3 className="text-xl font-bold">Add Task</h3>
-            <p className="text-zinc-600 text-sm mb-4 font-light">
+          <div className="modal-container">
+            <h3 className="modal-title">Add Task</h3>
+            <p className="modal-description">
               Add a new task in your todo.
             </p>
-            <div className="">
-              <div className="flex flex-col">
-                <label className="font-semibold mb-1">Title</label>
+            <div className="modal-input-outer">
+              <div className="modal-input-container ">
+                <label className="modal-label">Title</label>
                 <input
                   type="text"
                   placeholder="Title..."
@@ -154,24 +152,24 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
                     if (e.key === "Enter") handleAddTask();
                   }}
                   autoFocus
-                  className="border-2 border-black/60 rounded-md pl-3 h-10 ring-black"
+                  className="modal-input"
                 />
               </div>
 
-              <div className="flex flex-col">
-                <label className="font-semibold mb-1">Description</label>
+              <div className="modal-input-container">
+                <label className="modal-label">Description</label>
                 <textarea
                   placeholder="Write a short description about your text"
                   rows={3}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="rounded-md pl-2 pt-2 border-2 border-black/60"
+                  className="modal-textarea"
                 />
               </div>
 
               <button
                 onClick={handleAddTask}
-                className="bg-slate-900 hover:bg-slate-800/100 text-white p-2 rounded-md mt-4 w-28"
+                className="modal-submit-button"
               >
                 Add task
               </button>

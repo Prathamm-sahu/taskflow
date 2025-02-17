@@ -65,14 +65,14 @@ const UpdateTaskModal: FC<UpdateTaskModalProps> = ({ taskId, columnId, open, onC
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <div className="p-2 sm:w-[380px] md:w-[450px]">
-        <h3 className="text-xl font-bold">Add Task</h3>
-        <p className="text-zinc-600 text-sm mb-4 font-light">
+      <div className="modal-container">
+        <h3 className="modal-title">Add Task</h3>
+        <p className="modal-description">
           Update task in your todo.
         </p>
-        <div className="">
-          <div className="flex flex-col">
-            <label className="font-semibold mb-1">Title</label>
+        <div className="modal-input-outer">
+          <div className="modal-input-container">
+            <label className="modal-label">Title</label>
             <input
               type="text"
               placeholder="Title..."
@@ -82,26 +82,26 @@ const UpdateTaskModal: FC<UpdateTaskModalProps> = ({ taskId, columnId, open, onC
                 if (e.key === "Enter") handleSaveEdit();
               }}
               autoFocus
-              className="border-2 border-black/60 rounded-md pl-3 h-10 ring-black"
+              className="modal-input"
             />
           </div>
 
-          <div className="flex flex-col">
-            <label className="font-semibold mb-1">Description</label>
+          <div className="modal-input-container">
+            <label className="modal-label">Description</label>
             <textarea
               placeholder="Write a short description about your text"
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="rounded-md pl-2 pt-2 border-2 border-black/60"
+              className="modal-textarea"
             />
           </div>
 
           <button
             onClick={handleSaveEdit}
-            className="bg-slate-900 hover:bg-slate-800/100 text-white p-2 rounded-md mt-4 w-28"
+            className="modal-submit-button"
           >
-            {isLoading ? <Loader className="animate-spin h-4 w-4 mr-2" /> : null }
+            {isLoading ? <Loader className="loaderDiv" /> : null }
             Add task
           </button>
         </div>

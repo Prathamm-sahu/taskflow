@@ -41,17 +41,17 @@ const SignUpForm: FC<SignUpFormProps> = () => {
     }
   }
   return (
-    <div className="h-screen flex justify-center items-center">
-      <div className="flex flex-col">
-        <h1 className="text-3xl font-bold text-center">Create an account</h1>
-        <div className="text-gray-600 text-center">
+    <div className="login-container">
+      <div className="login-box">
+        <h1 className="login-title">Create an account</h1>
+        <div className="login-text">
           Already have an account?{" "}
           <Link to="/signin" className="underline">
             Login
           </Link>
         </div>
 
-        <div className="mt-10">
+        <div className="input-container">
           <LabelledInput
             label="Name"
             placeholder="Pratham Sahu"
@@ -89,7 +89,7 @@ const SignUpForm: FC<SignUpFormProps> = () => {
             onClick={onSignUp}
             className="flex justify-center items-center w-full mt-6 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
           >
-            {isLoading ? <Loader className="animate-spin h-4 w-4 mr-2" /> : null }
+            {isLoading ? <Loader className="loader-icon" /> : null }
             Sign Up
           </button>
         </div>
@@ -120,7 +120,7 @@ function LabelledInput({
         type={type || "text"}
         id={label}
         onChange={onChange}
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block min-w-80 p-2.5"
+        className="input-field"
         placeholder={placeholder}
         required
       />

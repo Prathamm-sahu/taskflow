@@ -6,11 +6,11 @@ interface SignInProps {}
 
 const SignIn: FC<SignInProps> = () => {
   return (
-    <div className="lg:grid grid-cols-2">
+    <div className="auth-container">
       <div>
         <SignInForm />
       </div>
-      <div className="hidden lg:block">
+      <div className="quote-section">
         <Quote />
       </div>
     </div>
