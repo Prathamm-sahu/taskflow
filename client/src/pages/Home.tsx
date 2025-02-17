@@ -32,17 +32,7 @@ function Home() {
           },
         }
       );
-
-      data.map((col) => {
-        dispatch({
-          type: "ADD_COLUMN",
-          column: {
-            id: col.id,
-            title: col.title,
-            tasks: col.tasks,
-          },
-        });
-      });
+      console.log(data)
     } catch (error) {
       console.log(error);
     } finally {
@@ -52,6 +42,7 @@ function Home() {
 
   useEffect(() => {
     fetchData();
+    console.log("Hello")
   }, []);
 
   if(!localStorage.getItem("userId")) {
