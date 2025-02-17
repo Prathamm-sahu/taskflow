@@ -9,7 +9,7 @@ import { Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const { state, dispatch } = useKanban();
+  const { state } = useKanban();
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate()
