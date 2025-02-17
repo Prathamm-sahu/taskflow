@@ -20,6 +20,10 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
   const [open, setOpen] = useState(false);
   const userId = localStorage.getItem("userId");
 
+  if(!localStorage.getItem("userId")) {
+    window.location.pathname="/signup"
+  }
+
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     const taskId = e.dataTransfer.getData("taskId");

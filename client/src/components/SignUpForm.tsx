@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../config/url";
 import { useKanban } from "../context/KanbanContext";
 import { Loader } from "lucide-react";
+import { toast } from "sonner";
 
 interface SignUpFormProps {}
 
@@ -27,6 +28,10 @@ const SignUpForm: FC<SignUpFormProps> = () => {
   const onSignUp = async () => {
     try {
       setIsLoading(true)
+      if(postInput.name === "" && postInput.email === "" && postInput.password === "") {
+        toast.warning("Please fill all the details.")
+        return;
+      }
       const { data } = await axios.post(`${BACKEND_URL}/user/signup`, postInput)
       localStorage.setItem("token", data.token)
       localStorage.setItem("userId", data.userId)
@@ -34,8 +39,12 @@ const SignUpForm: FC<SignUpFormProps> = () => {
       dispatch({ type: "ADD_COLUMN", column: { id: data.column2Id, title: "In Progress", tasks: [] }})
       dispatch({ type: "ADD_COLUMN", column: { id: data.column3Id, title: "Done", tasks: [] }})
       navigate("/")
-    } catch (error) {
-      console.log(error)
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.message)
+      } else {
+        console.error(error);
+      }
     } finally {
       setIsLoading(false)
     }

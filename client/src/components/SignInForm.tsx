@@ -1,8 +1,9 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../config/url";
 import { Loader } from "lucide-react";
+import { toast } from "sonner";
 
 interface SignInInputProps {
   email: string;
@@ -29,8 +30,12 @@ const SignInForm = () => {
 
       // Check whether you have to put update or not.
       navigate("/");
-    } catch (error) {
-      console.log(error);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        toast.error("Email or password incorrect")
+      } else {
+        console.error(error);
+      }
     } finally {
       setIsLoading(false)
     }
