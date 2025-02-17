@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MoreHorizontal, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useKanban } from "../context/KanbanContext";
 import { TaskCard } from "./TaskCard";
 import type { Column } from "../types";

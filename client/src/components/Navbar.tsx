@@ -1,6 +1,5 @@
-import { LogOut, Moon, Search, Sun, Undo } from "lucide-react";
+import { LogOut, Search } from "lucide-react";
 import { Dispatch, FC, SetStateAction } from "react";
-import { useKanban } from "../context/KanbanContext";
 import { useNavigate } from "react-router-dom";
 
 interface NavbarProps {
@@ -9,7 +8,6 @@ interface NavbarProps {
 }
 
 const Navbar: FC<NavbarProps> = ({ searchQuery, setSearchQuery }) => {
-  const { dispatch } = useKanban();
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
 
