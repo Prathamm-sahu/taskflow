@@ -73,7 +73,7 @@ const SignInForm = () => {
             onChange={(e) => {
               setPostInput((prev) => ({
                 ...prev,
-                name: e.target.value,
+                password: e.target.value,
               }));
             }}
           />
