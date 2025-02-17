@@ -6,11 +6,13 @@ import { Column } from "../types";
 import axios from "axios";
 import { BACKEND_URL } from "../config/url";
 import { Loader } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const { state, dispatch } = useKanban();
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate()
 
   const filteredColumns = state.columns.map((column) => ({
     ...column,
@@ -52,9 +54,10 @@ function Home() {
     fetchData();
   }, []);
 
-  // if(!localStorage.getItem("userId")) {
-  //   window.location.pathname = "/signup"
-  // }
+  if(!localStorage.getItem("userId")) {
+    navigate("/signup")
+    return null
+  }
 
   if (isLoading) {
     return (
